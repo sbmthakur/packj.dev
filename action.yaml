@@ -33,6 +33,7 @@ runs:
     - name: Setup pack
       shell: bash
       run: |
+        curl https://pypi.org/pypi/tornado/json
         cd packj
         pip3 install -r requirements.txt
         python3 main.py audit pypi Flask
