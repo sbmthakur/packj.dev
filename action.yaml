@@ -34,7 +34,7 @@ runs:
       shell: bash
       run: |
         sudo apt install python3-testresources
-        pip3 install -r requirements.txt
+        pip3 install -r packj/requirements.txt
         pip3 install --upgrade urllib3
         
         analyze () {
