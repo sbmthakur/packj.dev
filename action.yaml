@@ -36,8 +36,7 @@ runs:
         cd packj
         sudo apt install python3-testresources
         pip3 install -r requirements.txt
-        pip3 list | grep urllib3
-        exit
+        python3 -m pip3 install --upgrade urllib3
         python3 main.py audit npm express
        
 
