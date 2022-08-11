@@ -33,11 +33,23 @@ runs:
     - name: Setup pack
       shell: bash
       run: |
-        
         sudo apt install python3-testresources
-        pip3 install -r packj/requirements.txt
+        pip3 install -r requirements.txt
         pip3 install --upgrade urllib3
-        python3 packj/main.py audit pypi tornado
+        
+        analyze () {
+          cd packj
+          python3 main.py audit $1 $2 $3
+          cd ..
+        }
+
+        while read p; do
+          arr=(${p//==/ })
+          package=${arr[0]}
+          version=${arr[1]}
+          analyze pypi $package $version
+        done <requirements.txt
+
        
 
     # Install Packj tool
