@@ -33,8 +33,6 @@ runs:
     - name: Setup pack
       shell: bash
       run: |
-        python3 --version
-        exit
         cd packj
         sudo apt install python3-testresources
         pip3 install -r requirements.txt
