@@ -31,6 +31,7 @@ runs:
         repository: ossillate-inc/packj
         path: packj
     - name: Check files
+      shell: bash
       run: |
         ls
 
