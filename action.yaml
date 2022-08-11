@@ -30,8 +30,9 @@ runs:
       with:
         repository: ossillate-inc/packj
         path: packj
+    - name: Check files
       run: |
-        ls 
+        ls
 
        
 
