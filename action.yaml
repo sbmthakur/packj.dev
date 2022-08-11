@@ -33,8 +33,9 @@ runs:
     - name: Setup pack
       shell: bash
       run: |
-        pip3 install -r packj/requirements.txt
-        python3 packj/main.py pypi tornado
+        cd packj
+        pip3 install -r requirements.txt
+        python3 main.py pypi tornado
 
        
 
