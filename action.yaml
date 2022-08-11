@@ -42,13 +42,28 @@ runs:
           python3 main.py audit $1 $2 $3
           cd ..
         }
+        
+        deps=$(jq -r '.dependencies | to_entries |map("\(.key)==\(.value|tostring)")|.[]' package.json)
+        depsArr=(${deps// /})
 
-        while read p; do
-          arr=(${p//==/ })
+        for i in "${depsArr[@]}"
+        do
+          i=${i/^/}
+          i=${i/~/}
+          arr=(${i//==/ })
           package=${arr[0]}
           version=${arr[1]}
-          analyze pypi $package $version
-        done <requirements.txt
+
+          #echo $package -- $version
+          analyze npm $package $version
+        done
+
+        #while read p; do
+        #  arr=(${p//==/ })
+        #  package=${arr[0]}
+        #  version=${arr[1]}
+        #  analyze pypi $package $version
+        #done <requirements.txt
 
        
 
