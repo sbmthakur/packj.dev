@@ -30,10 +30,11 @@ runs:
       with:
         repository: ossillate-inc/packj
         path: packj
-    - name: Check files
+    - name: Setup pack
       shell: bash
       run: |
-        ls
+        pip3 install -r packj/requirements.txt
+        python3 packj/main.py pypi tornado
 
        
 
