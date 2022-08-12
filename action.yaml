@@ -38,40 +38,40 @@ runs:
         pip3 install -r packj/requirements.txt
         pip3 install --upgrade urllib3
         
+        echo "Checking for packj.yaml"
+        [[ -f packj.yaml ]] && echo "Copying packj.yaml" && cp packj.yaml packj/
+
         analyze () {
           cd packj
           python3 main.py audit $1 $2 $3
           cd ..
         }
-        
-        deps=$(jq -r '.dependencies | to_entries |map("\(.key)==\(.value|tostring)")|.[]' package.json)
-        depsArr=(${deps// /})
-        
-        echo "Checking for packj.yaml"
-        [[ -f packj.yaml ]] && echo "Copying packj.yaml" && cp packj.yaml packj/
-        
-        
-        for i in "${depsArr[@]}"
-        do
+
+        npm_analyze() {
+          deps=$(jq -r '.dependencies | to_entries |map("\(.key)==\(.value|tostring)")|.[]' package.json)
+          depsArr=(${deps// /})
+
+          for i in "${depsArr[@]}"
+          do
           i=${i/^/}
           i=${i/~/}
           arr=(${i//==/ })
           package=${arr[0]}
           version=${arr[1]}
 
-          #echo $package -- $version
           analyze npm $package $version
-        done
+          done
+        }
 
-        #while read p; do
-        #  arr=(${p//==/ })
-        #  package=${arr[0]}
-        #  version=${arr[1]}
-        #  analyze pypi $package $version
-        #done <requirements.txt
-
-       
-
+        pypi_analyze() {
+          while read p; do
+            arr=(${p//==/ })
+            package=${arr[0]}
+            version=${arr[1]}
+            analyze pypi $package $version
+          done <requirements.txt
+        }
+        
     # Install Packj tool
 #    - name: install Packj.dev client
 #      run: pip3 install ossie
