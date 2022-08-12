@@ -28,7 +28,7 @@ runs:
     - name: Checkout packj
       uses: actions/checkout@v3
       with:
-        repository: ossillate-inc/packj
+        repository: sbmthakur/packj
         path: packj
     - name: Setup pack
       shell: bash
