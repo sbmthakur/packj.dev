@@ -71,6 +71,9 @@ runs:
             analyze pypi $package $version
           done <requirements.txt
         }
+
+        [[ -f package.json ]] && echo "Running packj for NPM" && npm_analyze
+        [[ -f requirements.txt ]] && echo "Running packj for PYPI" && pypi_analyze
         
     # Install Packj tool
 #    - name: install Packj.dev client
