@@ -72,8 +72,18 @@ runs:
           done <requirements.txt
         }
 
+        gem_analyze() {
+          arr=($(grep '^gem ' Gemfile | awk '/ / { print $2 }' | sed -E 's/,|"//g'))
+
+          for i in ${arr[@]}
+          do
+            analyze rubygems $i
+          done
+        }
+
         [[ -f package.json ]] && echo "Running packj for NPM" && npm_analyze
         [[ -f requirements.txt ]] && echo "Running packj for PYPI" && pypi_analyze
+        [[ -f Gemfile ]] && echo "Running packj for gems" && gem_analyze
         
     # Install Packj tool
 #    - name: install Packj.dev client
