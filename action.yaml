@@ -46,7 +46,11 @@ runs:
         
         deps=$(jq -r '.dependencies | to_entries |map("\(.key)==\(.value|tostring)")|.[]' package.json)
         depsArr=(${deps// /})
-
+        
+        echo "Checking for packj.yaml"
+        [[ -f packj.yaml ]] && echo "Copying packj.yaml" && cp packj.yaml packj/
+        
+        
         for i in "${depsArr[@]}"
         do
           i=${i/^/}
