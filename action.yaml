@@ -30,6 +30,7 @@ runs:
       with:
         repository: sbmthakur/packj
         path: packj
+        ref: yaml
     - name: Setup pack
       shell: bash
       run: |
