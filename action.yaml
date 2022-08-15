@@ -98,6 +98,8 @@ runs:
         
         cat body.htm
         
+        echo "${{ github.server_url }}/${{ github.repository }}"
+        
     # Install Packj tool
 #    - name: install Packj.dev client
 #      run: pip3 install ossie
