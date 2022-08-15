@@ -44,6 +44,7 @@ runs:
         echo "ISSUE_BODY<<EOF" >> $GITHUB_ENV
         
         echo "<table>" >> $GITHUB_ENV
+        echo "<tr><th>Package (version)</th><th>Result</th><th>Dependency file</th></tr>" >> $GITHUB_ENV
         
         analyze () {
           cd packj
@@ -67,7 +68,7 @@ runs:
           version=${arr[1]}
           
           echo "<tr>" >> $GITHUB_ENV
-          echo "<td>$package</td>" >> $GITHUB_ENV
+          echo "<td>$package ($version)</td>" >> $GITHUB_ENV
           
           analyze npm $package $version
           echo "<td>${{ github.server_url }}/${{ github.repository }}/package.json</td>" >> $GITHUB_ENV
@@ -80,22 +81,35 @@ runs:
             arr=(${p//==/ })
             package=${arr[0]}
             version=${arr[1]}
+            
+            echo "<tr>" >> $GITHUB_ENV
+            echo "<td>$package ($version)</td>" >> $GITHUB_ENV
+            
             analyze pypi $package $version
+            echo "<td>${{ github.server_url }}/${{ github.repository }}/requirements.txt</td>" >> $GITHUB_ENV
+            echo "</tr>" >> $GITHUB_ENV
           done <requirements.txt
         }
 
         gem_analyze() {
           arr=($(grep '^gem ' Gemfile | awk '/ / { print $2 }' | sed -E 's/,|"//g'))
 
-          for i in ${arr[@]}
+          for package in ${arr[@]}
           do
-            analyze rubygems $i
+            echo "<tr>" >> $GITHUB_ENV
+            echo "<td>$package</td>" >> $GITHUB_ENV
+            
+            analyze rubygems $package
+            
+            echo "<td>${{ github.server_url }}/${{ github.repository }}/Gemfile</td>" >> $GITHUB_ENV
+            echo "</tr>" >> $GITHUB_ENV
           done
         }
 
+       
         [[ -f package.json ]] && echo "Running packj for NPM" && npm_analyze
-        #[[ -f requirements.txt ]] && echo "Running packj for PYPI" && pypi_analyze
-        #[[ -f Gemfile ]] && echo "Running packj for gems" && gem_analyze
+        [[ -f requirements.txt ]] && echo "Running packj for PYPI" && pypi_analyze
+        [[ -f Gemfile ]] && echo "Running packj for gems" && gem_analyze
         
         echo "</table>" >> $GITHUB_ENV
         
