@@ -68,6 +68,7 @@ runs:
           echo "<td>$package</td>" >> body.htm
           
           analyze npm $package $version
+          echo "<td>${{ github.server_url }}/${{ github.repository }}/package.json</td>"
           echo "</tr>" >> body.htm
           done
         }
@@ -97,8 +98,7 @@ runs:
         echo "</table>" >> body.htm
         
         cat body.htm
-        
-        echo "${{ github.server_url }}/${{ github.repository }}"
+       
         
     # Install Packj tool
 #    - name: install Packj.dev client
