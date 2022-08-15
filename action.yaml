@@ -104,7 +104,7 @@ runs:
         
        
     - name: create issue if ISSUE_REQUIRED is set
-      if: ${{ env.ISSUE_REQUIRED == 'YES'}}
+      #if: ${{ env.ISSUE_REQUIRED == 'YES'}}
       uses: rishabhgupta/git-action-issue@v2
       with:
         token: ${{ inputs.REPO_TOKEN }}
