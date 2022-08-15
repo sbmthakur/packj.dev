@@ -68,7 +68,7 @@ runs:
           echo "<td>$package</td>" >> body.htm
           
           analyze npm $package $version
-          echo "<td>${{ github.server_url }}/${{ github.repository }}/package.json</td>"
+          echo "<td>${{ github.server_url }}/${{ github.repository }}/package.json</td>" >> body.htm
           echo "</tr>" >> body.htm
           done
         }
