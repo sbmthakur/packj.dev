@@ -44,13 +44,11 @@ runs:
         echo '<table>' >> body.htm
         
         analyze () {
-          echo '<tr>' >> body.htm
           cd packj
+          echo "Processing $2"
           python3 main.py audit $1 $2 $3 &>audit.out
           #output=$(tail -n 2 audit.out | head -n 1)
           
-          echo "<td>$2</td>" >> body.htm
-          echo "</tr>" >> body.htm
           cd ..
         }
 
@@ -65,8 +63,12 @@ runs:
           arr=(${i//==/ })
           package=${arr[0]}
           version=${arr[1]}
-
-          analyze npm $package $version
+          
+          echo "<tr>" >> body.htm
+          echo "<td>$package</td>" >> body.htm
+          echo "</tr>" >> body.htm
+          
+          analyze npm $package $version  
           done
         }
 
