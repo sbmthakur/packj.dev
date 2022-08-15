@@ -43,7 +43,9 @@ runs:
 
         analyze () {
           cd packj
-          python3 main.py audit $1 $2 $3
+          python3 main.py audit $1 $2 $3 &>audit.out
+          output=$(tail -n 2 audit.out | head -n 1)
+          echo $output
           cd ..
         }
 
