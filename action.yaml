@@ -50,7 +50,7 @@ runs:
           cd packj
           echo "Processing $2"
           python3 main.py audit $1 $2 $3 &>audit.out
-          output=$(tail -n 2 audit.out)          
+          output=$(tail -n 2 audit.out | head -n1)          
           cd ..
           echo "<td>$output</td>" >> $GITHUB_ENV
         }
@@ -71,7 +71,7 @@ runs:
           echo "<td>$package ($version)</td>" >> $GITHUB_ENV
           
           analyze npm $package $version
-          echo "<td>${{ github.server_url }}/${{ github.repository }}/package.json</td>" >> $GITHUB_ENV
+          echo "<td>${{ github.server_url }}/${{ github.repository }}/blob/main/package.json</td>" >> $GITHUB_ENV
           echo "</tr>" >> $GITHUB_ENV
           done
         }
@@ -86,7 +86,7 @@ runs:
             echo "<td>$package ($version)</td>" >> $GITHUB_ENV
             
             analyze pypi $package $version
-            echo "<td>${{ github.server_url }}/${{ github.repository }}/requirements.txt</td>" >> $GITHUB_ENV
+            echo "<td>${{ github.server_url }}/${{ github.repository }}/blob/main/requirements.txt</td>" >> $GITHUB_ENV
             echo "</tr>" >> $GITHUB_ENV
           done <requirements.txt
         }
@@ -101,7 +101,7 @@ runs:
             
             analyze rubygems $package
             
-            echo "<td>${{ github.server_url }}/${{ github.repository }}/Gemfile</td>" >> $GITHUB_ENV
+            echo "<td>${{ github.server_url }}/${{ github.repository }}/blob/main/Gemfile</td>" >> $GITHUB_ENV
             echo "</tr>" >> $GITHUB_ENV
           done
         }
