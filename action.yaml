@@ -100,8 +100,8 @@ runs:
             echo "<td>$package</td>" >> $GITHUB_ENV
             
             analyze rubygems $package
-            
-            echo "<td>${{ github.server_url }}/${{ github.repository }}/blob/main/Gemfile</td>" >> $GITHUB_ENV
+            link="${{ github.server_url }}/${{ github.repository }}/blob/main/Gemfile"
+            echo "<td><a href=$link>$link</a></td>" >> $GITHUB_ENV
             echo "</tr>" >> $GITHUB_ENV
           done
         }
