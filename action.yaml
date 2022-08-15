@@ -41,11 +41,16 @@ runs:
         echo "Checking for packj.yaml"
         [[ -f packj.yaml ]] && echo "Copying packj.yaml" && cp packj.yaml packj/
 
+        echo '<table>' >> body.htm
+        
         analyze () {
+          echo '<tr>' >> body.htm
           cd packj
           python3 main.py audit $1 $2 $3 &>audit.out
-          output=$(tail -n 2 audit.out | head -n 1)
-          echo $output
+          #output=$(tail -n 2 audit.out | head -n 1)
+          
+          echo "<td>$2</td>" >> body.htm
+          echo "</tr>" >> body.htm
           cd ..
         }
 
@@ -84,8 +89,12 @@ runs:
         }
 
         [[ -f package.json ]] && echo "Running packj for NPM" && npm_analyze
-        [[ -f requirements.txt ]] && echo "Running packj for PYPI" && pypi_analyze
-        [[ -f Gemfile ]] && echo "Running packj for gems" && gem_analyze
+        #[[ -f requirements.txt ]] && echo "Running packj for PYPI" && pypi_analyze
+        #[[ -f Gemfile ]] && echo "Running packj for gems" && gem_analyze
+        
+        echo "</table>" >> body.htm
+        
+        cat body.htm
         
     # Install Packj tool
 #    - name: install Packj.dev client
