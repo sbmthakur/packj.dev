@@ -41,7 +41,10 @@ runs:
         echo "Checking for packj.yaml"
         [[ -f packj.yaml ]] && echo "Copying packj.yaml" && cp packj.yaml packj/
 
-        echo '<table>' >> body.htm
+        echo "ISSUE_TITLE=Issue title comes here..." >> $GITHUB_ENV
+        echo "ISSUE_BODY<<EOF" >> $GITHUB_ENV
+        
+        echo "<table>" >> $GITHUB_ENV
         
         analyze () {
           cd packj
@@ -49,7 +52,7 @@ runs:
           python3 main.py audit $1 $2 $3 &>audit.out
           output=$(tail -n 2 audit.out)          
           cd ..
-          echo "<td>$output</td>" >> body.htm
+          echo "<td>$output</td>" >> $GITHUB_ENV
         }
 
         npm_analyze() {
@@ -64,12 +67,12 @@ runs:
           package=${arr[0]}
           version=${arr[1]}
           
-          echo "<tr>" >> body.htm
-          echo "<td>$package</td>" >> body.htm
+          echo "<tr>" >> $GITHUB_ENV
+          echo "<td>$package</td>" >> $GITHUB_ENV
           
           analyze npm $package $version
-          echo "<td>${{ github.server_url }}/${{ github.repository }}/package.json</td>" >> body.htm
-          echo "</tr>" >> body.htm
+          echo "<td>${{ github.server_url }}/${{ github.repository }}/package.json</td>" >> $GITHUB_ENV
+          echo "</tr>" >> $GITHUB_ENV
           done
         }
 
@@ -95,46 +98,15 @@ runs:
         #[[ -f requirements.txt ]] && echo "Running packj for PYPI" && pypi_analyze
         #[[ -f Gemfile ]] && echo "Running packj for gems" && gem_analyze
         
-        echo "</table>" >> body.htm
+        echo "</table>" >> $GITHUB_ENV
         
-        cat body.htm
+        echo "EOF" >> $GITHUB_ENV
+        
        
-        
-    # Install Packj tool
-#    - name: install Packj.dev client
-#      run: pip3 install ossie
-#      shell: bash
-#
-#    # Audit the Repository
-#    - name: Audit project dependencies
-#      run: |
-#        ossie audit --id ${{ inputs.OSSIEBOT_ID }} --project ${{ github.workspace }}
-#        echo "ISSUE_REQUIRED=$(cat /tmp/issue_required.txt)" >> $GITHUB_ENV
-#        
-#        lines=$(wc -l /tmp/issue_body.txt | cut -f1 -d ' ')
-#        echo "ISSUE_TITLE=$(($lines - 1)) Undesirable/Risky Dependencies found" >> $GITHUB_ENV
-#        
-#        echo "ISSUE_BODY<<EOF" >> $GITHUB_ENV
-#        
-#        echo "<a href=\"https://packj.dev\"><img src=\"https://packj.dev/static/img/box-package.svg\" width=\"80\"></a>" >> $GITHUB_ENV
-#        
-#        echo "$(head -n -1 /tmp/issue_body.txt | head -n5)" >> $GITHUB_ENV
-#        #echo "#######"
-#        #echo "$(cat /tmp/issue_body.txt)"
-#        #echo "$(cat /tmp/issue_body.txt)" >> $GITHUB_ENV
-#        
-#        [[ ${lines} > 6 ]] && echo "and more..." >> $GITHUB_ENV
-#        
-#        last_line=$(tail -n1 /tmp/issue_body.txt)
-#        echo "$last_line" >> $GITHUB_ENV
-#        echo "EOF" >> $GITHUB_ENV
-#        
-#      shell: bash
-#
-#    - name: create issue if ISSUE_REQUIRED is set
-#      if: ${{ env.ISSUE_REQUIRED == 'YES'}}
-#      uses: rishabhgupta/git-action-issue@v2
-#      with:
-#        token: ${{ inputs.REPO_TOKEN }}
-#        title: ${{ env.ISSUE_TITLE }}
-#        body: ${{ env.ISSUE_BODY }}
+    - name: create issue if ISSUE_REQUIRED is set
+      if: ${{ env.ISSUE_REQUIRED == 'YES'}}
+      uses: rishabhgupta/git-action-issue@v2
+      with:
+        token: ${{ inputs.REPO_TOKEN }}
+        title: ${{ env.ISSUE_TITLE }}
+        body: ${{ env.ISSUE_BODY }}
