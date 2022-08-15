@@ -71,7 +71,9 @@ runs:
           echo "<td>$package ($version)</td>" >> $GITHUB_ENV
           
           analyze npm $package $version
-          echo "<td>${{ github.server_url }}/${{ github.repository }}/blob/main/package.json</td>" >> $GITHUB_ENV
+          
+          link="${{ github.server_url }}/${{ github.repository }}/blob/main/package.json"
+          echo "<td><a href=$link>$link</a></td>" >> $GITHUB_ENV
           echo "</tr>" >> $GITHUB_ENV
           done
         }
@@ -86,7 +88,9 @@ runs:
             echo "<td>$package ($version)</td>" >> $GITHUB_ENV
             
             analyze pypi $package $version
-            echo "<td>${{ github.server_url }}/${{ github.repository }}/blob/main/requirements.txt</td>" >> $GITHUB_ENV
+            
+            link="${{ github.server_url }}/${{ github.repository }}/blob/main/requirements.txt"
+            echo "<td><a href=$link>$link</a></td>" >> $GITHUB_ENV
             echo "</tr>" >> $GITHUB_ENV
           done <requirements.txt
         }
