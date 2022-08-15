@@ -41,7 +41,6 @@ runs:
         echo "Checking for packj.yaml"
         [[ -f packj.yaml ]] && echo "Copying packj.yaml" && cp packj.yaml packj/
 
-        echo "ISSUE_TITLE=Issue title comes here..." >> $GITHUB_ENV
         echo "ISSUE_BODY<<EOF" >> $GITHUB_ENV
         
         echo "<table>" >> $GITHUB_ENV
@@ -102,7 +101,11 @@ runs:
         
         echo "EOF" >> $GITHUB_ENV
         
-       
+        issue_count=$(grep "<tr>" $GITHUB_ENV | wc -l)
+        issue_title="$issue_count issues found"
+        
+        echo "ISSUE_TITLE=$issue_title" >> $GITHUB_ENV
+              
     - name: create issue if ISSUE_REQUIRED is set
       #if: ${{ env.ISSUE_REQUIRED == 'YES'}}
       uses: rishabhgupta/git-action-issue@v2
