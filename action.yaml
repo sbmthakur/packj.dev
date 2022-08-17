@@ -46,6 +46,8 @@ runs:
         echo "EOF" >> $GITHUB_ENV
         
         echo "ISSUE_TITLE=some_issue" >> $GITHUB_ENV
+        
+        echo $GITHUB_ENV
     - name: Setup pack
       if: ${{ false }}
       shell: bash
