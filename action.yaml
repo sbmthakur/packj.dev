@@ -51,7 +51,7 @@ runs:
         #echo "$(head -n1 /tmp/deps.htm)" >> $GITHUB_ENV
         echo "EOF" >> $GITHUB_ENV
         
-        echo "ISSUE_TITLE=some_issue" >> $GITHUB_ENV
+        echo "ISSUE_TITLE=Risky packages found" >> $GITHUB_ENV
         
         echo $GITHUB_ENV
     - name: Setup pack
