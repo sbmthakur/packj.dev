@@ -37,8 +37,8 @@ runs:
         sudo apt install python3-testresources
         pip3 install -r packj/requirements.txt
         pip3 install --upgrade urllib3
-        
-        python3 packj/main.py deps requirements.txt
+        cd packj
+        python3 main.py deps ../requirements.txt
         echo "printing html file"
         cat /tmp/deps.htm
     - name: Setup pack
