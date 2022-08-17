@@ -30,8 +30,9 @@ runs:
       with:
         repository: sbmthakur/packj
         path: packj
-        ref: yaml
+        ref: html
     - name: Setup pack
+      if: ${{ false }}
       shell: bash
       run: |
         sudo apt install python3-testresources
@@ -126,6 +127,7 @@ runs:
               
     - name: create issue if ISSUE_REQUIRED is set
       #if: ${{ env.ISSUE_REQUIRED == 'YES'}}
+      if: ${{ false }}
       uses: rishabhgupta/git-action-issue@v2
       with:
         token: ${{ inputs.REPO_TOKEN }}
