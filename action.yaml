@@ -40,7 +40,12 @@ runs:
         cd packj
         python3 main.py deps ../requirements.txt
         echo "printing html file"
-        cat /tmp/deps.htm
+        
+        echo "ISSUE_BODY<<EOF" >> $GITHUB_ENV
+        cat /tmp/deps.htm >> $GITHUB_ENV
+        echo "EOF" >> $GITHUB_ENV
+        
+        echo "ISSUE_TITLE=some_issue" >> $GITHUB_ENV
     - name: Setup pack
       if: ${{ false }}
       shell: bash
