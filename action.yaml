@@ -42,7 +42,13 @@ runs:
         echo "printing html file"
         
         echo "ISSUE_BODY<<EOF" >> $GITHUB_ENV
-        echo "$(head -n1 /tmp/deps.htm)" >> $GITHUB_ENV
+        
+        for l in $(cat /tmp/deps.htm);
+        do
+          echo $l >> $GITHUB_ENV
+        done
+        
+        #echo "$(head -n1 /tmp/deps.htm)" >> $GITHUB_ENV
         echo "EOF" >> $GITHUB_ENV
         
         echo "ISSUE_TITLE=some_issue" >> $GITHUB_ENV
@@ -144,7 +150,7 @@ runs:
               
     - name: create issue if ISSUE_REQUIRED is set
       #if: ${{ env.ISSUE_REQUIRED == 'YES'}}
-      if: ${{ false }}
+      #if: ${{ false }}
       uses: rishabhgupta/git-action-issue@v2
       with:
         token: ${{ inputs.REPO_TOKEN }}
