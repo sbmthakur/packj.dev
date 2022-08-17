@@ -31,6 +31,16 @@ runs:
         repository: sbmthakur/packj
         path: packj
         ref: html
+    - name: Run deps with packj
+      shell: bash
+      run: |
+        sudo apt install python3-testresources
+        pip3 install -r packj/requirements.txt
+        pip3 install --upgrade urllib3
+        
+        python3 packj/main.py deps requirements.txt
+        echo "printing html file"
+        cat /tmp/deps.htm
     - name: Setup pack
       if: ${{ false }}
       shell: bash
