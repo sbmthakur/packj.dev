@@ -42,7 +42,7 @@ runs:
         echo "printing html file"
         
         echo "ISSUE_BODY<<EOF" >> $GITHUB_ENV
-        cat /tmp/deps.htm >> $GITHUB_ENV
+        echo "$(head -n1 /tmp/deps.htm)" >> $GITHUB_ENV
         echo "EOF" >> $GITHUB_ENV
         
         echo "ISSUE_TITLE=some_issue" >> $GITHUB_ENV
