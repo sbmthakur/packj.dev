@@ -42,7 +42,7 @@ runs:
         echo "printing html file"
         
         echo "ISSUE_BODY<<EOF" >> $GITHUB_ENV
-        
+        echo ${{ github.run_id }}  >> $GITHUB_ENV
         for l in $(cat /tmp/deps.htm);
         do
           echo $l >> $GITHUB_ENV
