@@ -42,8 +42,10 @@ runs:
         echo "printing html file"
         
         echo "ISSUE_BODY<<EOF" >> $GITHUB_ENV
+        echo "<h2> Packj security scan report </h2>" >> $GITHUB_ENV
         run_url="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-        echo "<a href=$run_url>Check the run result</a>"  >> $GITHUB_ENV
+        commit_link="${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}"
+        echo "Created by <a href=$run_url>workflow run #${{ github.run_number }}</a> on commit <a href=commit-link>${{ github.sha }}</a>"  >> $GITHUB_ENV
         for l in $(cat /tmp/deps.htm);
         do
           echo $l >> $GITHUB_ENV
