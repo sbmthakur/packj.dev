@@ -42,7 +42,8 @@ runs:
         echo "printing html file"
         
         echo "ISSUE_BODY<<EOF" >> $GITHUB_ENV
-        echo ${{ github.run_id }}  >> $GITHUB_ENV
+        run_url="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+        echo "<a href=$run_url>Check the run result</a>"  >> $GITHUB_ENV
         for l in $(cat /tmp/deps.htm);
         do
           echo $l >> $GITHUB_ENV
