@@ -47,7 +47,7 @@ runs:
         path: packj
         ref: html
     - name: Run deps with packj
-      if: ${{ false }}
+      #if: ${{ false }}
       shell: bash
       run: |
         cat packj/test.txt
@@ -171,7 +171,7 @@ runs:
               
     - name: create issue if ISSUE_REQUIRED is set
       if: ${{ ! github.head_ref }}
-      #if: ${{ env.ISSUE_REQUIRED == 'YES'}}
+      if: ${{ env.ISSUE_REQUIRED == 'YES'}}
       #if: ${{ false }}
       uses: rishabhgupta/git-action-issue@v2
       with:
