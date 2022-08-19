@@ -108,5 +108,6 @@ runs:
       #if: ${{ false }}
       uses: thollander/actions-comment-pull-request@v1
       with:
-        message: ${{ env.ISSUE_BODY }}
+        message: |
+          ${{ env.ISSUE_BODY }}
         GITHUB_TOKEN: ${{ inputs.REPO_TOKEN }}
