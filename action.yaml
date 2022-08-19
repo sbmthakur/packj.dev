@@ -170,7 +170,7 @@ runs:
         echo "ISSUE_TITLE=$issue_title" >> $GITHUB_ENV
               
     - name: create issue if ISSUE_REQUIRED is set
-      if: ! ${{ github.head_ref }}
+      if: ${{ ! github.head_ref }}
       #if: ${{ env.ISSUE_REQUIRED == 'YES'}}
       #if: ${{ false }}
       uses: rishabhgupta/git-action-issue@v2
