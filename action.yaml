@@ -50,7 +50,7 @@ runs:
       #if: ${{ false }}
       shell: bash
       run: |
-        cat packj/test.txt
+        ls
         exit
         sudo apt install python3-testresources
         pip3 install -r packj/requirements.txt
