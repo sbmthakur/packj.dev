@@ -60,13 +60,16 @@ runs:
         
         IFS=',' read -ra DEPENDENCIES <<< ${{ inputs.DEPENDENCY_FILES }}
         input_files=()
+        echo "---$DEPENDENCIES"
+        
         for i in "${DEPENDENCIES[@]}"
           do 
             cp $i packj/
             file_name=$(basename $i); 
             input_files+=$filename,
           done
-          
+        
+        echo $input_files
         input_files=${input_files::-1}
         echo $input_files
         python3 packj/main.py deps $input_files
