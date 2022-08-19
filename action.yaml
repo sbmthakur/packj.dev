@@ -73,7 +73,7 @@ runs:
         input_files=${input_files::-1}
         echo $input_files
         ls packj/
-        cd packj/ && python3 packj/main.py deps $input_files && cd..
+        cd packj/ && python3 main.py deps $input_files && cd..
         echo "printing html file"
         
         echo "ISSUE_BODY<<EOF" >> $GITHUB_ENV
