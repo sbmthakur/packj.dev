@@ -72,6 +72,7 @@ runs:
         echo $input_files
         input_files=${input_files::-1}
         echo $input_files
+        ls packj/
         python3 packj/main.py deps $input_files
         echo "printing html file"
         
