@@ -50,13 +50,12 @@ runs:
       #if: ${{ false }}
       shell: bash
       run: |
-        cat test.txt
-        exit
+
         sudo apt install python3-testresources
         pip3 install -r packj/requirements.txt
         pip3 install --upgrade urllib3
-        cd packj
-        python3 main.py deps ../requirements.txt
+        #cd packj
+        python3 packj/main.py deps requirements.txt
         echo "printing html file"
         
         echo "ISSUE_BODY<<EOF" >> $GITHUB_ENV
@@ -74,100 +73,7 @@ runs:
         
         echo "ISSUE_TITLE=Risky packages found" >> $GITHUB_ENV
         
-        echo $GITHUB_ENV
-    - name: Setup pack
-      if: ${{ false }}
-      shell: bash
-      run: |
-        sudo apt install python3-testresources
-        pip3 install -r packj/requirements.txt
-        pip3 install --upgrade urllib3
-        
-        echo "Checking for packj.yaml"
-        [[ -f packj.yaml ]] && echo "Copying packj.yaml" && cp packj.yaml packj/
-
-        echo "ISSUE_BODY<<EOF" >> $GITHUB_ENV
-        
-        echo "<table>" >> $GITHUB_ENV
-        echo "<tr><th>Package (version)</th><th>Result</th><th>Dependency file</th></tr>" >> $GITHUB_ENV
-        
-        analyze () {
-          cd packj
-          echo "Processing $2"
-          python3 main.py audit $1 $2 $3 &>audit.out
-          output=$(grep -E 'undesirable|No risks' audit.out)          
-          cd ..
-          echo "<td>$output</td>" >> $GITHUB_ENV
-        }
-
-        npm_analyze() {
-          deps=$(jq -r '.dependencies | to_entries |map("\(.key)==\(.value|tostring)")|.[]' package.json)
-          depsArr=(${deps// /})
-
-          for i in "${depsArr[@]}"
-          do
-          i=${i/^/}
-          i=${i/~/}
-          arr=(${i//==/ })
-          package=${arr[0]}
-          version=${arr[1]}
-          
-          echo "<tr>" >> $GITHUB_ENV
-          echo "<td>$package ($version)</td>" >> $GITHUB_ENV
-          
-          analyze npm $package $version
-          
-          link="${{ github.server_url }}/${{ github.repository }}/blob/main/package.json"
-          echo "<td><a href=$link>$link</a></td>" >> $GITHUB_ENV
-          echo "</tr>" >> $GITHUB_ENV
-          done
-        }
-
-        pypi_analyze() {
-          while read p; do
-            arr=(${p//==/ })
-            package=${arr[0]}
-            version=${arr[1]}
-            
-            echo "<tr>" >> $GITHUB_ENV
-            echo "<td>$package ($version)</td>" >> $GITHUB_ENV
-            
-            analyze pypi $package $version
-            
-            link="${{ github.server_url }}/${{ github.repository }}/blob/main/requirements.txt"
-            echo "<td><a href=$link>$link</a></td>" >> $GITHUB_ENV
-            echo "</tr>" >> $GITHUB_ENV
-          done <requirements.txt
-        }
-
-        gem_analyze() {
-          arr=($(grep '^gem ' Gemfile | awk '/ / { print $2 }' | sed -E 's/,|"//g'))
-
-          for package in ${arr[@]}
-          do
-            echo "<tr>" >> $GITHUB_ENV
-            echo "<td>$package</td>" >> $GITHUB_ENV
-            
-            analyze rubygems $package
-            link="${{ github.server_url }}/${{ github.repository }}/blob/main/Gemfile"
-            echo "<td><a href=$link>$link</a></td>" >> $GITHUB_ENV
-            echo "</tr>" >> $GITHUB_ENV
-          done
-        }
-
-       
-        [[ -f package.json ]] && echo "Running packj for NPM" && npm_analyze
-        [[ -f requirements.txt ]] && echo "Running packj for PYPI" && pypi_analyze
-        [[ -f Gemfile ]] && echo "Running packj for gems" && gem_analyze
-        
-        echo "</table>" >> $GITHUB_ENV
-        
-        echo "EOF" >> $GITHUB_ENV
-        
-        issue_count=$(grep "<tr>" $GITHUB_ENV | wc -l)
-        issue_title="$issue_count issues found"
-        
-        echo "ISSUE_TITLE=$issue_title" >> $GITHUB_ENV
+        #echo $GITHUB_ENV
               
     - name: create issue if ISSUE_REQUIRED is set
       #if: ${{ ! github.head_ref }}
