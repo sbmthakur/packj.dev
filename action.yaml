@@ -75,10 +75,10 @@ runs:
         
         echo "ISSUE_TITLE=Risky packages found" >> $GITHUB_ENV
         
-        #echo $GITHUB_ENV
+        cat /tmp/deps.htm
               
     - name: create issue if ISSUE_REQUIRED is set
-      if: ${{ env.ISSUE_TITLE }}
+      if: ${{ github.head_ref == '' }}
       #if: ${{ env.ISSUE_REQUIRED == 'YES'}}
       #if: ${{ false }}
       uses: rishabhgupta/git-action-issue@v2
