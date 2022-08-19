@@ -65,7 +65,7 @@ runs:
         for i in "${DEPENDENCIES[@]}"
           do 
             cp $i packj/
-            file_name=$(basename $i); 
+            filename=$(basename $i); 
             input_files+=$filename,
           done
         
