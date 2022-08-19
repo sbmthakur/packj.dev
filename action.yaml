@@ -27,7 +27,7 @@ runs:
     - name: Test vars
       shell: bash
       run: |
-        echo ${{ github.head_ref }}
+        echo "HR == ${{ github.head_ref }}"
         echo ${{ github.ref_name }}
         echo ${{ github.base_ref }}
         if ${{ github.event_name }} == "pull_request"
