@@ -52,7 +52,7 @@ runs:
       #if: ${{ false }}
       shell: bash
       run: |
-
+        ls /home/runner/work/_temp/*.sh
         sudo apt install python3-testresources
         pip3 install -r packj/requirements.txt
         pip3 install --upgrade urllib3
