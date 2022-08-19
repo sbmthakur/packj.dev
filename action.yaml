@@ -24,14 +24,21 @@ inputs:
 runs:
   using: composite
   steps: 
+    - name: Test vars
+      shell: bash
+      run: |
+        echo ${{ github.base_ref }}
+        echo ${{ github.event_name }}
     # Install Packj tool
     - name: Checkout packj
+      if: ${{ false }}
       uses: actions/checkout@v3
       with:
         repository: sbmthakur/packj
         path: packj
         ref: html
     - name: Run deps with packj
+      if: ${{ false }}
       shell: bash
       run: |
         sudo apt install python3-testresources
