@@ -176,7 +176,8 @@ runs:
         body: ${{ env.ISSUE_BODY }}
         
     - name: Comment PR
-      if: ${{ env.PR }} == "true"
+      #if: ${{ env.PR }} == "true"
+      if: ${{ false }}
       uses: thollander/actions-comment-pull-request@v1
       with:
         message: |
