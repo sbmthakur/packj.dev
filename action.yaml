@@ -25,6 +25,7 @@ runs:
   using: composite
   steps: 
     - name: Test vars
+      if: ${{ false }}
       shell: bash
       run: |
         echo "HR == ${{ github.head_ref }}"
@@ -39,7 +40,7 @@ runs:
           
     # Install Packj tool
     - name: Checkout packj
-      if: ${{ false }}
+      #if: ${{ false }}
       uses: actions/checkout@v3
       with:
         repository: sbmthakur/packj
@@ -49,6 +50,8 @@ runs:
       if: ${{ false }}
       shell: bash
       run: |
+        cat packj/test.txt
+        exit
         sudo apt install python3-testresources
         pip3 install -r packj/requirements.txt
         pip3 install --upgrade urllib3
