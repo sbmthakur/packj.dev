@@ -20,6 +20,8 @@ inputs:
 #    required: true
   REPO_TOKEN:
     required: true
+  DEPENDENCY_FILES:
+    required: true
     
 runs:
   using: composite
@@ -55,7 +57,7 @@ runs:
         pip3 install -r packj/requirements.txt
         pip3 install --upgrade urllib3
         #cd packj
-        python3 packj/main.py deps requirements.txt
+        python3 packj/main.py deps ${{ inputs.DEPENDENCY_FILES }}
         echo "printing html file"
         
         echo "ISSUE_BODY<<EOF" >> $GITHUB_ENV
