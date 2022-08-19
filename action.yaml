@@ -27,6 +27,8 @@ runs:
     - name: Test vars
       shell: bash
       run: |
+        echo ${{ github.head_ref }}
+        echo ${{ github.ref_name }}
         echo ${{ github.base_ref }}
         echo ${{ github.event_name }}
     # Install Packj tool
