@@ -57,7 +57,19 @@ runs:
         pip3 install -r packj/requirements.txt
         pip3 install --upgrade urllib3
         #cd packj
-        python3 packj/main.py deps ${{ inputs.DEPENDENCY_FILES }}
+        
+        IFS=',' read -ra DEPENDENCIES <<< ${{ inputs.DEPENDENCY_FILES }}
+        input_files=()
+        for i in "${DEPENDENCIES[@]}"
+          do 
+            cp $i packj/
+            file_name=$(basename $i); 
+            input_files+=$filename,
+          done
+          
+        input_files=${input_files::-1}
+        echo $input_files
+        python3 packj/main.py deps $input_files
         echo "printing html file"
         
         echo "ISSUE_BODY<<EOF" >> $GITHUB_ENV
