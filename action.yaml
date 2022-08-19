@@ -109,5 +109,5 @@ runs:
       uses: thollander/actions-comment-pull-request@v1
       with:
         message: |
-          ${{ env.ISSUE_BODY }}
+          Hello
         GITHUB_TOKEN: ${{ inputs.REPO_TOKEN }}
